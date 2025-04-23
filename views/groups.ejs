@@ -1,0 +1,17 @@
+<h2>إدارة المجموعات</h2>
+<a href="/admin/groups/create">➕ إنشاء مجموعة جديدة</a>
+
+<table border="1">
+  <tr>
+    <th>اسم المجموعة</th>
+    <th>التحكم</th>
+  </tr>
+  <% groups.forEach(group => { %>
+    <tr>
+      <td><%= group.name %></td>
+      <td>
+        <a href="/admin/groups/edit/<%= group.id %>">تعديل الصلاحيات</a>
+      </td>
+    </tr>
+  <% }) %>
+</table>

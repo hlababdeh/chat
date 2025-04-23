@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شات الشلة | شات تبوك | شات جدة</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="/css/chat.css">
+</head>
+<body>
+    <div class="chat-header">
+        <div class="mic-controls">
+            <button><i class="fas fa-microphone"></i></button>
+            <button><i class="fas fa-microphone"></i></button>
+            <button><i class="fas fa-microphone"></i></button>
+            <button><i class="fas fa-microphone"></i></button>
+            <button><i class="fas fa-microphone"></i></button>
+            <button><i class="fas fa-volume-up"></i></button>
+        </div>
+    </div>
+    <div class="chat-container" id="chat-messages" style="flex: 1; overflow-y: auto;  direction: ltr; text-align: right;">
+        <!-- الرسائل ستظهر هنا -->
+    </div>
+    <div class="chat-footer">
+        <div class="input-group">
+            <button class="send-btn" id="send-btn"><i class="fas fa-paper-plane"></i> إرسال</button>
+            <input type="text" id="message-input" placeholder="اكتب رسالتك هنا...">
+            <button class="send-btn"><i class="far fa-smile"></i></button>
+            <!-- زر الخروج من الغرفة -->
+            <button id="leave-room-btn"  class="fa-solid fa-right-to-bracket ms-1" title="الخروج من الغرفة"></button>
+
+        </div>
+        <div class="footer-controls">
+          <button id="toggle-users-btn" class="btn"><i class="fas fa-user-group"></i> <span id="user-count">0</span></button>
+          <button id="toggle-private-btn" class="btn"><i class="fas fa-comments"></i> خاص</button>
+          <button id="toggle-wall-btn" class="btn">
+            <i class="fas fa-comment-dots"></i> الحائط 
+            <span id="wallNotif" class="badge bg-warning" style="display: none;">0</span>
+          </button>
+          <button id="toggle-rooms-btn" class="btn"><i class="fas fa-users"></i> الغرف</button>
+          <button id="toggle-settings-btn" class="btn"><i class="fas fa-cogs"></i> الضبط</button>
+        </div>
+    </div>
+
+          <div class="rooms-container" id="rooms-container" style="display: none;">
+            <div class="online-users-header">
+              <span>📂 غرف الدردشة </span>
+              <button class="btn btn-danger btn-sm tab-close-btn" data-target="rooms-container">✖</button>
+
+            </div>
+            <button id="create-room-btn" class="w-100">إنشاء غرفة جديدة</button>
+
+
+            <ul id="rooms-list" class="list-unstyled"></ul>
+          </div>
+          
+          <div class="online-users-container" id="online-users">
+
+            <!-- ✅ الهيدر -->
+            <div class="online-users-header d-flex justify-content-between align-items-center mb-2 p-2 bg-dark text-white">
+              <span>المتواجدون الآن (<span id="total-user-count">0</span>)</span>
+              <button class="btn btn-danger btn-sm tab-close-btn" data-target="online-users">✖</button>
+            </div>
+          
+            <!-- ✅ مربع البحث -->
+            <input type="text" id="search-users" class="form-control form-control-sm mb-2" placeholder="ابحث عن مستخدم...">
+          
+            <!-- ✅ المحتوى المتحرك فقط -->
+            <div class="scroll-area">
+              <!-- ✅ المتواجدون في الغرفة -->
+              <div id="room-users-box" class="section mb-0">
+                <div class="bg-dark text-white p-2 w-100">
+                  <i class="fas fa-users me-1"></i>
+                  <span id="room-users-title">المتواجدون في الغرفة</span>
+                </div>
+                <ul id="users-in-room" class="list-unstyled mb-0"></ul>
+              </div>
+          
+              <!-- ✅ المتواجدون في الدردشة -->
+              <div class="section mt-0">
+                <div class="bg-dark text-white p-2 w-100">
+                  <i class="fas fa-comment me-1"></i>
+                  المتواجدون في الدردشة
+                </div>
+                <ul id="users-in-chat" class="list-unstyled mb-0"></ul>
+              </div>
+            </div>
+          
+            <!-- ✅ (اختياري) لو بدك تحط فوتر ثابت، ضيفه هون -->
+            <!-- <div class="online-users-footer">مثال على فوتر ثابت</div> -->
+          
+          </div>
+          
+          <!-- ✅ تبويبة الحائط بتنسيق مشابه للصورة الأخيرة -->
+          <div class="wall-container" id="wall-container" style="display: none; flex: 1; overflow-y: auto; direction: ltr; text-align: right;">
+            <div class="chat-header">
+              <span>الحائط</span>
+              <button class="btn btn-danger btn-sm tab-close-btn" data-target="wall-container">✖</button>
+            </div>
+          
+            <!-- منشورات الحائط مع Scroll -->
+            <div id="wallPosts"></div>
+            <button id="loadMoreBtn" style="display:none;" class="btn btn-secondary w-100">مشاهدة المزيد</button>
+
+            <!-- صندوق النشر ثابت في الأسفل -->
+            <div class="wall-input p-2 border-top bg-light">
+              <div id="wallMediaPreview" class="mb-2"></div>
+              <input type="file" id="wallMediaInput" style="display:none" accept="image/*,video/*">
+              <div class="input-group">
+                <button id="shareBtn" class="btn btn-secondary" onclick="document.getElementById('wallMediaInput').click();">
+                  <i class="fas fa-share-alt"></i>
+                </button>
+                <button id="emojiBtn" class="btn btn-secondary">
+                  <i class="far fa-smile"></i>
+                </button>
+                <textarea id="wallMessage" class="form-control" placeholder="اكتب رسالتك هنا"></textarea>
+                <button id="sendWallBtn" class="btn btn-success">
+                  <i class="fas fa-paper-plane"></i> إرسال
+                </button>
+              </div>
+            </div>
+          </div>
+            <!-- المحادثات الخاصة -->
+          <div class="private-chats-container" id="private-chats-container" style="display:none;">
+              <div class="chat-header">
+                  <span>المحادثات الخاصة</span>
+                  <button class="btn btn-danger btn-sm tab-close-btn" data-target="private-chats-container">✖</button>
+                </div>
+              <ul id="private-chats-list" class="list-unstyled">
+                  <!-- سيتم ملء المحادثات هنا -->
+              </ul>
+          </div>
+          <div class="settings-container" id="settings-container">
+            <div class="settings-header">
+              <span>الإعدادات</span>
+              <button class="btn btn-danger btn-sm tab-close-btn" data-target="settings-container">✖</button>
+            </div>
+          
+            <div class="form-group">
+              <label>الزخرفة</label>
+            </div>
+            <div class="form-group">
+              <input type="text" id="topicInput" class="form-control" placeholder="ادخل زخرفتك">
+            </div>
+          
+            <div class="form-group">
+              <label>الحالة</label>
+            </div>
+            <div class="form-group">
+              <input type="text" id="msgInput" class="form-control" placeholder="اكتب حالتك">
+            </div>
+          
+            <div class="form-group">
+              <label>لون الاسم</label>
+              <input type="color" id="ucolInput" class="form-control">
+            </div>
+          
+            <div class="form-group">
+              <label>لون الخط</label>
+              <input type="color" id="mcolInput" class="form-control"">
+            </div>
+          
+            <div class="form-group">
+              <label>لون الخلفية</label>
+              <input type="color" id="bgInput" class="form-control">
+            </div>
+          
+            <button id="saveSettingsBtn" class="btn btn-success btn-block">
+              <i class="fas fa-save"></i> حفظ
+            </button>
+            
+
+          <!-- ✅ تغيير الصورة -->
+          <div class="form-group change-pic-group">
+            <button type="button" class="btn change-pic-btn" onclick="document.getElementById('imageInput').click()">
+              <span class="change-pic-text"><i class="fas fa-image"></i> تغيير الصورة</span>
+              <img id="avatarLoading" src="/uploads/loading.gif" alt="جاري التحميل..." class="avatar-loading" style="display: none;">
+              <span class="img-container">
+                <img id="avatarPreview" src="/uploads/avatars/pic.png" alt="الصورة الشخصية" class="avatar-in-button">
+              </span>
+            </button>
+          </div>
+          
+          <!-- ✅ اختيار الصورة -->
+          <input type="file" id="imageInput" accept="image/*" style="display: none;">
+
+          <!-- ✅ حذف الصورة -->
+          <div class="form-group delete-pic-group">
+            <button onclick="deletePicture()" class="btn btn-danger btn-block delete-pic-btn">
+              <i class="fas fa-user-slash"></i> حذف الصورة
+            </button>
+          </div>
+
+     
+      <button class="custom-logout-btn mt-2" id="logout-btn">
+        تسجيل الخروج <i class="fas fa-sign-out-alt"></i>
+      </button>
+
+          </div>
+          <script>
+            const username = "<%= session.user ? session.user.username : session.guest.guest_name %>";
+            const userType = "<%= session.user ? 'عضو' : 'زائر' %>";
+            const userId = Number("<%= session.user ? session.user.id : session.guest.id %>");
+            const country = "<%= session.user ? session.user.country : session.guest.country %>";
+            const message = "<%= session.user ? session.user.msg : '' %>";
+            const avatar = "<%= session.user ? session.user.pic : 'default-avatar.png' %>";
+          </script>
+          <!-- Socket.IO أولاً -->
+          <script src="/socket.io/socket.io.js"></script>
+          <script src="/js/wall.js"></script> 
+          <script src="/js/chat_rooms_ui.js"></script>
+          <script src="/js/chat.js"></script>
+          <script src="/js/settings.js"></script> 
+          
+</body>
+</html>

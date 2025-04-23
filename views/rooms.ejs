@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>إدارة الغرف</title>
+</head>
+<body dir="rtl">
+<h2>قائمة الغرف</h2>
+<table border="1">
+  <thead>
+    <tr>
+      <th>اسم الغرفة</th>
+      <th>الوصف</th>
+      <th>الصورة</th>
+      <th>إجراء</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% rooms.forEach(room => { %>
+      <tr>
+        <td><%= room.topic %></td>
+        <td><%= room.about %></td>
+        <td><img src="/uploads/<%= room.pic %>" width="50"/></td>
+        <td>
+          <a href="/admin/rooms/edit/<%= room.idroom %>">تعديل</a> | 
+          <a href="/admin/rooms/delete/<%= room.idroom %>" onclick="return confirm('هل أنت متأكد من حذف الغرفة؟')">حذف</a>
+        </td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
+</body>
+</html>

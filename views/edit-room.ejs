@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>تعديل الغرفة</title>
+</head>
+<body dir="rtl">
+    <h2>تعديل الغرفة: <%= room.topic %></h2>
+
+    <form action="/admin/rooms/edit/<%= room.idroom %>" method="POST" enctype="multipart/form-data">
+        <label>اسم الغرفة:</label><br>
+        <input type="text" name="topic" value="<%= room.topic %>" required><br>
+
+        <label>الوصف:</label><br>
+        <input type="text" name="about" value="<%= room.about %>" required><br>
+
+        <label>لون الغرفة:</label><br>
+        <input type="color" name="collor" value="<%= room.collor %>"><br>
+
+        <label>رسالة الترحيب:</label><br>
+        <input type="text" name="welcome" value="<%= room.welcome %>"><br>
+
+        <label>الحد الأقصى لعدد المستخدمين:</label><br>
+        <input type="number" name="max" value="<%= room.max %>" min="0"><br>
+
+        <label>تفعيل كلمة مرور للغرفة؟</label>
+        <input type="checkbox" name="needpass" <%= room.needpass ? "checked" : "" %>><br>
+
+        <label>كلمة المرور (اتركه فارغًا إذا لم ترغب بتغييره):</label><br>
+        <input type="text" name="pass" placeholder="كلمة المرور الجديدة"><br>
+
+        <label>صورة الغرفة:</label><br>
+        <input type="file" name="pic"><br>
+        <small>الصورة الحالية: <img src="/uploads/<%= room.pic %>" width="50"></small><br><br>
+
+        <button type="submit">حفظ التغييرات</button>
+    </form>
+
+    <br>
+    <a href="/admin/rooms">عودة إلى إدارة الغرف</a>
+</body>
+</html>

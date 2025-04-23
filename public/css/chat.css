@@ -1,0 +1,1323 @@
+
+
+html, body {
+  background-color: #7E9591;
+  color: white;
+  font-family: 'Tajawal', sans-serif;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.chat-header {
+  background-color: #7f0f2b;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 5px;
+  gap: 5px;
+}
+.mic-controls {
+  display: flex;
+  gap: 3px;
+}
+.mic-controls button {
+  width: 50px;
+  height: 50px;
+  background: #f9f9f9;
+  color: #7f0f2b;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.6rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chat-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 1px;
+  background: #ebebeb;
+}
+.message {
+      display: flex;
+      align-items: flex-start;
+      /* margin-bottom: 1px; */
+      /* padding: 5px; */
+      background: #ffffff; /* بني */
+      width: 100%;
+      color: rgb(58, 19, 1);
+      max-width: 100%;
+      border-top: 1px solid #929292;
+      direction: ltr;
+      padding-bottom: 5px;
+  }
+
+  .message img {
+      width: 56px;
+      height: 56px;
+      border-radius: 3px; /* ✅ مربع بحواف دائرية خفيفة */
+      margin-right: 3px;
+  }
+
+  .message-content {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      "Helvetica Neue",Helvetica,Arial,font-family: sans-serif;
+      FONT-FAMILY: "Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-weight: 700;
+      padding: 2px;
+  }
+
+  .message-content .username {
+      font-weight: bold;
+      margin-left: 5px;
+  }
+
+  .system-message {
+      text-align: center;
+      color: white;
+      background: #444;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+  }
+
+.chat-footer {
+  background: #7f0f2b;
+  /* padding: 10px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.chat-footer .input-group {
+  display: flex;
+  width: 100%;
+}
+.chat-footer input {
+  flex-grow: 1;
+  padding: 5px;
+  border: none;
+  /* border-radius: 5px; */
+  text-align: left;
+  outline: none !important;
+  box-shadow: none !important;
+  border: 1px solid #ccc; /* أو عدّل حسب ستايلك */
+}
+.chat-footer .send-btn {
+  background: #444;
+  color: white;
+  border: none;
+  padding: 0px 15px;
+  /* margin-left: 5px; */
+  /* border-radius: 5px; */
+  cursor: pointer;
+}
+.footer-controls {
+  display: flex;
+  /* gap: 5px; */
+  /* margin-top: 10px; */
+  justify-content: flex-start;
+  width: 100%;
+  height: 40px;
+  direction: ltr;
+}
+.footer-controls .btn {
+  background: #7f0f2b;
+  color: white;
+  /* border: none; */
+  padding: 8px 14px;
+  /* border-radius: 5px; */
+  display: flex;
+  /* align-items: center; */
+  font-size: 0.9rem;
+  gap: 3px;
+  border-radius: 0px;
+  border: 1px solid #000;
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
+}
+.footer-controls .btn:hover {
+  background: #ffc107;
+  color:#7f0f2b;
+}
+.footer-controls .btn i {
+  margin-left: 5px;
+  border-radius: 0px;
+}
+.online-users-container {
+  position: fixed;
+  width: 350px;
+  height: 88%;
+  background: rgb(209 209 209);
+  color: black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  display: none;
+}
+/* ✅ تصغير الحجم للأجهزة الصغيرة */
+/* ✅ Galaxy S10e, S8, A50, iPhone X (عرض ~ 412px) */
+@media (max-width: 420px) {
+  .footer-controls .btn {
+    padding: 7px 8px;
+    font-size: 0.8rem;
+    min-width: 55px;
+  }
+
+  .footer-controls .btn i {
+    font-size: 15px;
+  }
+}
+
+/* ✅ Galaxy A01, J2 Core, iPhone SE (عرض ~ 375px) */
+@media (max-width: 380px) {
+  .footer-controls .btn {
+    padding: 6px 6px;
+    font-size: 0.75rem;
+    min-width: 50px;
+  }
+
+  .footer-controls .btn i {
+    font-size: 14px;
+  }
+}
+
+/* ✅ أجهزة قديمة جدًا مثل Galaxy S5 (عرض ~ 360px) */
+@media (max-width: 365px) {
+  .footer-controls .btn {
+    padding: 5px 5px;
+    font-size: 0.7rem;
+    min-width: 48px;
+  }
+
+  .footer-controls .btn i {
+    font-size: 13px;
+  }
+}
+.online-users-header {
+  display: flex;
+  justify-content: space-between;
+  background: #444;
+  color: white;
+  padding: 10px;
+  border-radius: 0 8px 0 0px;
+}
+.badge {
+  display: flex;
+  justify-content: space-between;
+  background: #444;
+  color: rgb(2, 2, 2);
+  margin-right: 5px;
+  font-size: medium;
+  /* padding: 8px; */
+}
+
+.user-container {
+  display: flex;
+  align-items: center;
+  background: #333;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 5px;
+}
+
+.user-container img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  margin-right: 10px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.user-info strong {
+  font-size: 14px;
+  color: #ffcc00;
+}
+
+.user-info p {
+  font-size: 12px;
+  margin: 2px 0;
+  color: #ccc;
+}
+
+.user-info span {
+  font-size: 11px;
+  color: #bbb;
+  font-style: italic;
+}
+
+/************************************/
+/* نافذة الإعدادات بنفس تصميم المتواجدين في الغرفة */
+/* نافذة الإعدادات بنفس تصميم المتواجدين في الغرفة مع تحسين المساحة */
+.settings-container {
+  position: fixed;
+  width: 350px;
+  height: 96%;
+  background: rgb(209 209 209);
+  color: black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  /* padding: 10px; */
+  display: none;
+  bottom: 40px;
+  border-left: 2px solid #555555;
+}
+
+/* الهيدر */
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  background: #444;
+  color: white;
+  padding: 10px;
+  border-radius: 0 8px 0 0px;
+}
+
+/* زر الإغلاق */
+.settings-header .btn-close {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.settings-header .btn-close:hover {
+  background: #c82333;
+}
+
+/* محتوى الإعدادات - تحسين إدارة المساحة */
+.settings-content {
+  padding: 5px;
+  font-size: 12px;
+  max-height: 87vh; /* استخدام معظم الشاشة بدون ظهور سكولر */
+  overflow-y: auto;
+}
+
+/* تحسين توزيع الحقول */
+.form-group {
+  margin-bottom: 4px;
+}
+
+.form-group label {
+  font-weight: bold;
+  display: block;
+  font-size: 12px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 12px;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* تحسين حجم الأزرار */
+.btn {
+  width: auto;
+  margin: 2px 0;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+
+/* إزالة المسافات الكبيرة بين الأزرار */
+.settings-content .btn {
+  padding: 6px 8px;
+  font-size: 12px;
+}
+
+/* تقليل المسافات بين العناصر */
+.settings-content hr {
+  margin: 4px 0;
+}
+
+/* إزالة السكولر وتحسين توزيع المحتوى */
+.settings-content {
+  overflow-y: auto;
+  max-height: calc(90vh - 60px);
+}
+
+/* تحسين عرض حقول الألوان ليكون النص والمربع في نفس السطر */
+.color-picker-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #6c7a74; /* لون الخلفية الرمادي */
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 6px;
+  border: 1px solid #5a6860;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+/* ضبط مربع اللون */
+.color-label {
+  flex: 1; /* يجعل النص يأخذ المساحة المتاحة */
+  text-align: center;
+}
+
+/* مربع اللون */
+.color-input {
+  width: 40px;
+  height: 25px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 6px;
+}
+
+
+
+
+
+/************************************/
+.private-chats-container {
+  position: fixed;
+  width: 350px;
+  height: 96%;
+  background: rgb(209 209 209);
+  color: black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  display: none;
+  bottom: 40px;
+}
+
+.private-chats-container .chat-header {
+  display: flex;
+  justify-content: space-between;
+  background: #444;
+  color: white;
+  padding: 10px;
+  border-radius: 0 8px 0 0px;
+}
+
+
+.private-chats-header span {
+  font-weight: bold;
+}
+
+#private-chats-list li {
+  padding: 5px;
+  cursor: pointer;
+}
+
+#private-chats-list li:hover {
+  background-color: #e9ecef;
+}
+
+
+/* تنسيق العناصر في قائمة المتواجدين */
+.user-card {
+  background: white;
+  border-bottom: 1px solid #ccc;
+  padding: 2px 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Tajawal', sans-serif;
+}
+
+.user-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.user-avatar {
+  max-height: 52px !important;
+  min-width: 52px;
+  object-fit: cover;
+}
+
+.user-info {
+  text-align: right;
+}
+
+.user-name {
+  font-weight: bold;
+  font-size: 15px;
+  color: #050505;
+}
+
+.user-status {
+  font-size: 12px;
+  color: gray;
+}
+
+.user-id {
+  font-size: 12px;
+  color: #888;
+  margin-right: 5px;
+}
+
+.user-flag {
+  width: 25px;
+  height: 17px;
+  object-fit: contain;
+}
+
+
+
+
+.rooms-container {
+  position: fixed;
+  width: 350px;
+  height: 96%;
+  background: rgb(209 209 209);
+  color: black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  display: none;
+  bottom: 40px;
+  }
+
+.rooms-container .online-users-header {
+  display: flex;
+  justify-content: space-between;
+  background: #373b3e;
+  color: white;
+  padding: 10px;
+  border-radius: 0 8px 0 0px;
+}
+
+.room-item {
+  padding: 8px;
+  border-bottom: 1px solid #444444;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.room-item:hover {
+  background-color: #e0e0e0;
+}
+
+.room-avatar {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
+
+/*تنسيق الاشعارات للرومات */
+.room-notify {
+  background: #f1f1f1;
+  color: #222;
+  padding: 5px 10px;
+  border-right: 4px solid #5d6d7e;
+  margin: 5px 0;
+  font-weight: bold;
+}
+
+.room-item {
+  position: relative;
+  padding-left: 40px; /* مساحة لرقم الزاوية */
+  background-color: #ffffff;
+}
+
+.room-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #7e9591;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.room-item.active-room {
+  border-right: 4px solid #1e90ff ; /* لون البوردر المميز */
+  background-color: #f9f9f9;
+}
+
+
+#leave-room-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  /* margin-left: 5px; */
+  cursor: pointer;
+  color: #fff;
+}
+
+.online-users-container {
+  position: fixed;
+  width: 350px;
+  height: 96%;
+  bottom: 40px;
+  background: rgb(209, 209, 209);
+  color: black;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  direction: rtl;
+  padding: 0;
+  margin: 0;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #eee;
+}
+
+.scroll-area::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll-area::-webkit-scrollbar-track {
+  background: #eee;
+}
+
+.scroll-area::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+
+
+.room-notify {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  background-color: #e9e9e9; /* خلفية خفيفة لألوان التنبيه */
+}
+
+.room-notify i {
+  color: red; /* لون الأيقونة باللون الأحمر */
+  font-size: 18px; /* تغيير حجم الأيقونة حسب الحاجة */
+}
+
+.room-notify strong {
+  color: black; /* اسم المستخدم باللون الأسود */
+  font-size: 16px; /* تغيير حجم الخط حسب الحاجة */
+}
+
+.room-notify span {
+  color: black; /* النص "خرج من هنـا" باللون الأسود */
+  margin-left: 5px; /* المسافة بين الاسم والنص */
+}
+
+.custom-join-msg {
+  display: flex;
+  align-items: center;
+  direction: ltr;
+  /* background: #f9f9f9; */
+  /* border: 1px solid #ddd; */
+  /* border-radius: 2px; */
+  /* padding: 5px; */
+  /* margin: 5px 0; */
+  font-family: 'Tajawal', sans-serif;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  /* margin-top: 5px; */
+  margin: 5px;
+}
+
+.custom-join-msg img {
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+}
+
+.custom-join-msg .message-content {
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  color: #333;
+  text-align: left;
+}
+
+.custom-join-msg .message-content .user-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.custom-join-msg .message-content .action-text {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.room-tag {
+  background-color: #556e70;
+  color: #ffffff;
+  padding: 2px 5px;
+  /* border-radius: 6px; */
+  font-weight: bold;
+  font-size: 13px;
+  display: inline-block;
+}
+
+
+#create-room-btn {
+  background-color: #546360; /* اللون الأزرق للخلفية */
+  color: white; /* النص باللون الأبيض */
+  padding: 10px 20px; /* المسافة داخل الزر */
+  font-size: 16px; /* حجم الخط */
+  font-weight: bold; /* جعل النص عريض */
+  cursor: pointer; /* تغيير المؤشر عند التمرير */
+}
+
+#create-room-btn:hover {
+  background-color: #2b3836; /* اللون عند التمرير */
+}
+
+
+
+.wall-container {
+  position: fixed;
+  width: 350px;
+  height: 96%;
+  background: rgb(209 209 209);
+  color: black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  display: none;
+  bottom: 40px;
+}
+.wall-container .chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #343a40;
+  color: #fff;
+
+}
+.wall-container #wallPosts {
+  flex: 1;
+  overflow-y: auto;
+  /* padding: 10px; */
+  min-height: 0; /* يمنع التمدد الزائد */
+}
+.wall-container .wall-input {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  background: #fff;
+  /* border-radius: 10px; */
+  margin-top: 2px;
+  direction: rtl;
+}
+.wall-container textarea {
+  flex: 1;
+  resize: none;
+  height: 40px;
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+.wall-container .wall-item {
+  background: #fff;
+  border-radius: 5px;
+  padding: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+}
+.wall-container .wall-item img {
+  max-width: 100%;
+  /* border-radius: 5px; */
+  /* margin-top: 5px; */
+}
+.wall-container .wall-input .wall-btn {
+  background: #e9ecef;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 16px;
+}
+.wall-container .wall-input .wall-btn:hover {
+  background: #ced4da;
+}
+.wall-container .wall-input .send-btn {
+  background: #3d5551;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.wall-item .media img,
+.wall-item .media video {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 3px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  object-fit: cover;
+  position: relative;
+}
+
+.wall-input {
+position: sticky;
+bottom: 0;
+background: #f8f9fa;
+z-index: 10;
+}
+
+/* ✅ شكل الرسالة نفسها */
+#wall-container .chat-message {
+  position: relative;
+  /* padding: 10px 10px 36px 10px; */ /* ترك مساحة للأسفل */
+  border-bottom: 1px solid #f1f1f1;
+  background: #fff;
+  display: flex;
+  direction: ltr;
+  border-radius: 0;
+  margin: 0;
+  word-break: break-word;
+  text-wrap-style: auto;
+}
+
+#wall-container .avatar {
+  flex-shrink: 0;
+}
+
+#wall-container .avatar img {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+}
+
+#wall-container .message-content {
+  flex: 1;
+  /* margin-right: 10px; */
+  /* margin-bottom: 20px; */
+}
+
+#wall-container .message-content .header {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+#wall-container .message-content .text {
+  font-size: 17px;
+  white-space: pre-wrap;
+  color: #000;
+  font-family: Arial;
+  font-weight: 700;
+  font-style: normal;
+  text-align: left;
+  margin-left: 10px;
+}
+
+#wall-container .message-content .time {
+  font-size: 12px;
+  color: #198754;
+  direction: rtl;
+}
+
+#wall-container .actions {
+  position: absolute;
+  bottom: 4px;
+  right: 5px; /* استخدم right بدلاً من left لجعل الأزرار تبدأ من الجهة اليمنى */
+  display: flex;
+  gap: 0px; /* تقليل المسافة بين الأزرار */
+  flex-direction: row-reverse; /* ترتيب الأزرار من اليمين لليسار */
+}
+
+#wall-container .actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #7E9591;
+  border: none;
+  font-size: 11px;
+  padding: 2px 6px;  /* ⬅️ تقليل البادينغ أكثر */
+  /* border-radius: 4px; */
+  color: #fff;
+  cursor: pointer;
+  /* min-width: 2px; */
+  height: 24px;       /* ⬅️ تقليل الارتفاع */
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+#wall-container .actions button.like {
+  background-color: #e74c3c;
+}
+
+#wall-container .actions i {
+  color: #fff;
+  font-size: 12px;    /* ⬅️ تصغير الأيقونة كمان شوي */
+}
+
+#wall-container .actions .like-count {
+  margin-left: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.comment-section {
+  /* background: #f9f9f9; */
+  border-top: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 0 0 10px 10px;
+  margin-top: 10px;
+}
+
+.comments-list {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 5px;
+  margin-bottom: 10px;
+}
+
+
+.comment-count {                /* لون الخط */
+  font-size: 14px;               /* حجم الخط */
+  font-weight: bold;
+
+}
+
+
+.single-comment {
+  display: flex;
+  gap: 10px;
+  padding: 8px;
+  background: #f3f3f3;
+  margin-bottom: 8px;
+  border-radius: 8px;
+}
+
+.single-comment .avatar img {
+  width: 45px;
+  height: 45px;
+  /* border-radius: 50%; */
+}
+
+.single-comment .content {
+  flex: 1;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.name-and-time {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.comment-time {
+  color: #777;
+  font-size: 13px;
+}
+
+.delete-comment {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+}
+
+.delete-comment:hover {
+  color: red;
+}
+
+
+/* تنسيق الـ comment-section */
+.comment-section {
+  display: none; /* نعرضه فقط عند الضغط على زر التعليقات */
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  max-height: 400px; /* يمكنك تعديل الحد الأقصى للارتفاع */
+  overflow-y: auto; /* إظهار التمرير عند تجاوز المحتوى */
+  border-bottom: 1px solid #3d5551;
+  margin-bottom: 20px;
+}
+
+/* عنوان التعليقات */
+.comment-section .comment-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  direction: rtl;
+  text-align: right; /* يحدد محاذاة النص */
+}
+
+/* قائمة التعليقات */
+.comment-section .comments-list {
+  margin-bottom: 10px;
+}
+
+/* كل تعليق */
+.comment-section .single-comment {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.comment-section .single-comment .avatar {
+  margin-right: 10px;
+}
+
+.comment-section .single-comment .content {
+  max-width: 90%;
+}
+
+/* مدخل التعليق */
+.comment-section .comment-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.comment-section .comment-input .comment-text {
+  width: 80%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  background-color: #fff;
+  direction: rtl;
+}
+
+.comment-section .comment-input .send-comment {
+  /* padding: 10px; */
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  /* font-size: 14px; */
+  height: 35px;
+  width: 35px;
+}
+
+.comment-section .comment-input .send-comment:hover {
+  background-color: #45a049;
+}
+
+/* تعليقات المستخدمين */
+.comment-section .single-comment .content b {
+  font-size: 14px;
+  color: #333;
+}
+
+/* تنسيق الوقت في الزاوية العليا */
+.comment-section .single-comment .content .comment-time {
+  font-size: 12px;
+  color: #888;
+  text-align: right; /* تغيير المحاذاة لليسار (أو يمكن أن تكون right حسب الحاجة) */
+  position: relative;
+  /* top: 0; */
+  /* left: 0; */ /* محاذاة الوقت للزاوية العليا على اليسار */
+  margin-top: 5px; /* إضافة بعض المسافة من الأعلى */
+  margin-left: 120px; /* إضافة بعض المسافة من اليسار */
+  display: inline-block; /* لجعل الوقت يظهر بشكل منفصل عن النص */
+  direction: rtl;
+}
+
+.settings-container .form-group {
+  display: flex;
+  border-top: 1px solid #ccc;
+  height: 25px;
+  direction: ltr;
+}
+
+.settings-container .form-group label {
+  background-color: #555555;
+  color: white;
+  padding: 0 10px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.settings-container .form-control {
+  /* width: 60%; */
+  border: 1px solid #ccc;
+  font-size: 14px;
+  /* padding: 10px 1px; */
+  border-radius: 0;
+  height: 100%;
+  margin: 1px;
+}
+
+.settings-container .msgInput {
+  /* width: 60%; */
+  border: 1px solid #ccc;
+  font-size: 13px;
+  padding: 10px 8px;
+  border-radius: 0;
+  height: 100%;
+}
+
+
+
+.settings-container .form-control[type="color"] {
+  padding: 0;
+  border: none;
+  height: 100%;
+  width: 100%;
+}
+
+.settings-container #saveSettingsBtn {
+  width: 100%;
+  /* padding: 10px; */
+  font-size: 14px;
+  font-weight: bold;
+  border: 1px solid #28a745;
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+  gap: 8px;
+  border-radius: 0;
+}
+
+.settings-container #saveSettingsBtn:hover {
+  background-color: #218838;
+}
+
+/* ✅ زر تغيير الصورة */
+.change-pic-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 0px;
+  font-weight: bold;
+  padding: 20px 5px;
+  color: #000;
+  position: relative;
+  direction: rtl;
+}
+
+.avatar-in-button {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  /* border-radius: 6px; */
+  border: 1px solid #aaa;
+  /* margin-right: 10px; */
+}
+
+.img-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ✅ توسيط النص */
+.change-pic-text {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 15px;
+  position: relative;
+  z-index: 2;
+}
+
+
+/* ✅ منع تأثير hover */
+.change-pic-btn:hover,
+.change-pic-btn:focus,
+.change-pic-btn:active {
+  background-color: #ffffff !important;
+  color: #000 !important;
+  box-shadow: none !important;
+  border-color: #ccc !important;
+}
+
+/* ✅ تباعد واضح عن الزر اللي فوق */
+.delete-pic-group {
+  margin-top: 30px;
+}
+
+/* ✅ زر الحذف مصمم بشكل نظيف */
+.delete-pic-btn {
+  font-weight: bold;
+  width: 100%;
+  padding: 14px;
+  /* font-size: 15px; */
+  background-color: #dc3545;
+  /* border: 1px solid #b02a37; */
+  border-radius: 0px;
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* ✅ تأثير hover ناعم */
+.delete-pic-btn:hover {
+  background-color: #c82333;
+  border-color: #a71d2a;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.avatar-loading {
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  width: 35px;
+  height: 35px;
+  z-index: 5;
+}
+
+
+.custom-logout-btn {
+  background-color: #443b3b;       /* أحمر جذاب ثابت */
+  color: #fff;
+  border: none;
+  border-radius: 0px;
+  padding: 5px 12px;
+  width: 100%;
+  font-weight: bold;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;                /* تباعد خفيف من الأعلى */
+  box-shadow: none;
+  outline: none;
+}
+.custom-logout-btn:hover {
+  background-color: #b03225;      /* بدون أي تغيير عند المرور */
+  cursor: pointer;
+}
+.custom-logout-btn i {
+  transform: rotateY(180deg);     /* سهم لليسار */
+  font-size: 15px;
+}
+
+
+.user-info-modal {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  width: 320px;
+  z-index: 9999;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  text-align: center;
+}
+.popup-img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  margin: 10px 0;
+}
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #666;
+}
+.popup-details {
+  margin-top: 10px;
+}
+.popup-country {
+  width: 24px;
+  vertical-align: middle;
+}
+
+
+@media (max-width: 420px) {
+  .online-users-container,
+  .settings-container,
+  .rooms-container,
+  .wall-container,
+  #online-users,
+  .private-chats-container {
+    width: 80vw;
+    height: 95%;
+    left: 0;
+    right: 0;
+    padding: 10px 5px;
+  }
+
+  .room-item {
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  .form-group input,
+  .settings-container .form-control,
+  .comment-section .comment-input .comment-text {
+    font-size: 13px;
+  }
+
+  .footer-controls .btn {
+    font-size: 0.75rem;
+    padding: 6px 8px;
+    min-width: 50px;
+  }
+
+  .footer-controls .btn i {
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>إدارة المستخدمين</title>
+</head>
+<body dir="rtl">
+
+<h2>قائمة المستخدمين</h2>
+<table border="1">
+  <thead>
+    <tr>
+      <th>الرقم</th>
+      <th>اسم المستخدم</th>
+      <th>الدولة</th>
+      <th>مجموعة الصلاحيات</th>
+      <th>إجراء</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% users.forEach(user => { %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.username %></td>
+        <td><%= user.country %></td>
+        <td><%= user.permissions_group %></td>
+        <td><a href="/admin/users/delete/<%= user.id %>">حذف</a></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+</body>
+</html>

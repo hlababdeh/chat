@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>إنشاء مجموعة جديدة</title>
+</head>
+<body dir="rtl">
+  <h2>إنشاء مجموعة جديدة</h2>
+
+  <form action="/admin/groups/create" method="POST">
+    <label>اسم المجموعة:</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <h3>الصلاحيات:</h3>
+
+    <% const permissionsMap = {
+      "can_kick": "الطرد",
+      "can_delete_wall": "حذف الحائط",
+      "can_notify": "التنبيهات",
+      "can_change_nick": "تغيير النك",
+      "can_edit_nicks": "تغيير النكات",
+      "can_ban": "الباند",
+      "can_announce": "الإعلانات",
+      "can_pm": "فتح الخاص",
+      "can_move_user": "نقل من الغرفة",
+      "can_manage_rooms": "إدارة الغرف",
+      "can_create_rooms": "إنشاء الغرف",
+      "can_fixed_room_limit": "أقصى حد للغرف الثابتة",
+      "can_manage_members": "إدارة العضويات",
+      "can_mute": "إسكات العضو",
+      "can_edit_likes": "تعديل لايكات العضو",
+      "can_filter": "الفلتر",
+      "can_manage_subs": "الاشتراكات",
+      "can_shortcuts": "الاختصارات",
+      "can_chat": "رسائل الدردشة",
+      "can_monitor_filter": "فلتر المراقبة",
+      "can_edit_permissions": "تعديل الصلاحيات",
+      "can_design_membership": "تصميم عضوية",
+      "can_gift": "الهدايا",
+      "can_view_nicks": "كشف النكات",
+      "can_access_admin": "لوحة التحكم",
+      "can_access_full_rooms": "الغرف الممتلئة والمغلقة",
+      "can_delete_profile_pic": "حذف صورة العضو",
+      "can_delete_public_messages": "حذف الرسائل العامة",
+      "can_be_hidden": "مخفي",
+      "can_give_banner": "إعطاء بنر",
+      "can_manage_site": "إدارة الموقع"
+    }; %>
+
+    <% Object.keys(permissionsMap).forEach(key => { %>
+      <div>
+        <label>
+          <input type="checkbox" name="permissions" value="<%= key %>">
+          <%= permissionsMap[key] %>
+        </label>
+      </div>
+    <% }) %>
+
+    <br>
+    <button type="submit">إنشاء المجموعة</button>
+  </form>
+</body>
+</html>

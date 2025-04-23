@@ -1,0 +1,14 @@
+<h2>تعديل صلاحيات المجموعة: <%= group.name %></h2>
+
+<form method="POST" action="/admin/groups/edit/<%= group.id %>">
+  <% allPermissions.forEach(p => { %>
+    <div>
+      <label>
+        <input type="checkbox" name="permissions" value="<%= p.key %>"
+          <%= permissions[p.key] ? 'checked' : '' %>>
+        <%= p.label %>
+      </label>
+    </div>
+  <% }) %>
+  <button type="submit">حفظ</button>
+</form>

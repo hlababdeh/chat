@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>إدارة الحظر</title>
+</head>
+<body dir="rtl">
+<h2>قائمة الحظر</h2>
+<form action="/admin/bans/add" method="POST">
+  <input type="text" name="name_band" placeholder="سبب الحظر" required><br>
+  <select name="type">
+    <option value="ip">IP</option>
+    <option value="country">دولة</option>
+    <option value="device">جهاز</option>
+    <option value="account">حساب</option>
+  </select><br>
+  <input type="text" name="decoderDans" placeholder="اسم الحساب (إذا نوع الحظر حساب)"><br>
+  <input type="text" name="device_band" placeholder="Device ID (إذا نوع الحظر جهاز)"><br>
+  <input type="text" name="ip_band" placeholder="IP (إذا نوع الحظر IP)"><br>
+  <input type="text" name="country_band" placeholder="رمز الدولة مثل JO (إذا نوع الحظر دولة)"><br>
+  <input type="text" name="date" placeholder="تاريخ انتهاء الحظر (فارغ يعني دائم)"><br>
+  <button type="submit">إضافة حظر</button>
+</form>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>سبب الحظر</th>
+      <th>النوع</th>
+      <th>قيمة الحظر</th>
+      <th>تاريخ الحظر</th>
+      <th>الإجراء</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% bans.forEach(ban => { %>
+      <tr>
+        <td><%= ban.id %></td>
+        <td><%= ban.name_band %></td>
+        <td><%= ban.type %></td>
+        <td>
+          <%= ban.type === 'ip' ? ban.ip_band : ban.type === 'country' ? ban.country_band : ban.type === 'device' ? ban.device_band : ban.decoderDans %>
+        </td>
+        <td><%= ban.createdAt.toLocaleString() %></td>
+        <td><a href="/admin/bans/delete/<%= ban.id %>">حذف الحظر</a></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+</body>
+</html>
